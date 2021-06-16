@@ -1,6 +1,6 @@
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.*;
-//import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -23,7 +23,7 @@ public class Test_GET {
     String cardComment = "The comments are added by ReastAssured"; // Comments, that added to the card
     String cardCComment = "The first comment just created by ReastAssured card"; // Comments, that added to the just created card
         
-    public static Response doGetRequest(String endpoint) {
+    public static Response doGetRequest(String endpoint) { // extracting(parsing) the JASON response 
         RestAssured.defaultParser = Parser.JSON;
 
         return
@@ -31,7 +31,6 @@ public class Test_GET {
                 when().get(endpoint).
                 then().contentType(ContentType.JSON).extract().response();
     }
-    
     
     
     @Test
@@ -43,11 +42,11 @@ public class Test_GET {
     	System.out.println(currentCardId);
     	
     	List<String> jsonResponse = response.jsonPath().getList("$");
-    	int i = jsonResponse.size();
-    	System.out.println(i);
-    	i--;
+    	int qnCards = jsonResponse.size();// quantity of the Cards at the dashBoard  
+    	System.out.println(qnCards);
+    	qnCards--;
     	
-    	String currentCardId2 = response.jsonPath().getString("id["+i+"]");
+    	String currentCardId2 = response.jsonPath().getString("id["+qnCards+"]");
     	System.out.println(currentCardId2);   	
     	    	
     	    	
